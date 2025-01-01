@@ -1,0 +1,23 @@
+{% extends "layout/default.html" %}
+
+{% block content %}
+<main class="p-3" x-data="{ data: [], fetched_data: [] }" x-init="fetched_data = await (await fetch('/api/now')).json();
+  data = fetched_data.total_terbaru.map((traffic) => {
+    const past_traffic_item = fetched_data.bulan_kemarin.filter(it => it.judul == traffic.judul)[0]?.views || 0
+    return { judul: traffic.judul, views: past_traffic_item ? traffic.views - past_traffic_item : traffic.views }
+  }).sort((a, b) => b.views - a.views);">
+  <mdui-list>
+    <template x-for="(traffic, index) in data">
+      <mdui-list-item rounded>
+        <div class="flex flex-row gap-3">
+          <span x-text="(index + 1) + '.'"></span>
+          <span x-text="traffic.judul"></span>
+        </div>
+        <div slot="description">
+          <span x-text="'Views: ' + traffic.views + '.'"></span>
+        </div>
+      </mdui-list-item>
+    </template>
+  </mdui-list>
+</main>
+{% endblock %}

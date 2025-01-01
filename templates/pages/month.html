@@ -1,0 +1,21 @@
+{% extends "layout/default.html" %}
+
+{% block content %}
+<main class="p-3" x-data="{ bulan_ini: {{ bulan_ini }}, bulan_kemarin: {{ bulan_kemarin }} }">
+  <mdui-list>
+    <template x-for="(traffic, index) in bulan_ini">
+      <mdui-list-item rounded>
+        <div class="flex flex-row gap-3">
+          <span x-text="(index + 1) + '.'"></span>
+          <span x-text="traffic.judul"></span>
+        </div>
+        <div slot="description"
+          x-data="{ past_traffic_item: bulan_kemarin.filter(it => it.judul == traffic.judul)[0] }">
+          <span
+            x-text="'Views: ' + (past_traffic_item ? traffic.views - past_traffic_item.views : traffic.views) + '.'"></span>
+        </div>
+      </mdui-list-item>
+    </template>
+  </mdui-list>
+</main>
+{% endblock %}

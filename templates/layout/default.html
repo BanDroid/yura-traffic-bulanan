@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or "Traffic Bulanan" }}</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+  <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+
+  <script src="//unpkg.com/alpinejs" defer></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+  </style>
+</head>
+
+<body class="mdui-theme-dark h-screen">
+  <mdui-layout class="h-full">
+    <mdui-navigation-drawer id="navigation-drawer" class="md:block" close-on-esc close-on-overlay-click contained>
+      <mdui-list class="p-2">
+        <mdui-list-item rounded href="/">Bulan ini</mdui-list-item>
+        {% for traffic in traffic_bulanan['items'] %}
+        <mdui-list-item rounded href="/{{ traffic['id'] }}">
+          {{ traffic['tgl_bulan'] | format_date_output }}
+        </mdui-list-item>
+        {% endfor %}
+      </mdui-list>
+    </mdui-navigation-drawer>
+
+    <mdui-top-app-bar id="top-app-bar" scroll-behavior="elevate" scroll-target="#layout-main">
+      <mdui-button-icon class="md:hidden"
+        onclick="document.getElementById('navigation-drawer').open = !document.getElementById('navigation-drawer').open">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          style="width: 1.5rem; height: 1.5rem;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </mdui-button-icon>
+      <mdui-top-app-bar-title>{{ title or "Traffic Bulanan" }}</mdui-top-app-bar-title>
+    </mdui-top-app-bar>
+
+    <mdui-layout-main id="layout-main">
+      {% block content %}{% endblock%}
+    </mdui-layout-main>
+  </mdui-layout>
+</body>
+
+</html>
