@@ -24,7 +24,7 @@ def home():
     )
 
 
-@app.route("/<id>")
+@app.route("/<string:id>")
 def past_month(id):
     r = get(
         f"{BASE_API_URL}/api/collections/traffic_bulanan/records?skipTotal=1&fields=id,tgl_bulan&sort=-tgl_bulan"
@@ -35,7 +35,7 @@ def past_month(id):
     )
     selected_month_data = selected_month_data_response.json()
     month_before_response = get(
-        f"{BASE_API_URL}/api/collections/traffic_bulanan/records?sort=-created&perPage=1&page=1&filter=tgl_bulan<'{selected_month_data['tgl_bulan']}'"
+        f"{BASE_API_URL}/api/collections/traffic_bulanan/records?sort=-created&perPage=1&page=1&filter=tgl_bulan<\"{selected_month_data['tgl_bulan']}\""
     )
     month_before = (
         month_before_response.json()["items"][0]
